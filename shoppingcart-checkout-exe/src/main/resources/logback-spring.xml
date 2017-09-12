@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+     
+    <!-- Importing defaults like CONSOLE_LOG_PATTERN and FILE_LOG_PATTERN -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+ 
+    <!-- Appender to log to console -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Custom log pattern  - MUST BE SAME for all microservices -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%X{userId},%X{focusId}] ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</pattern>
+            <charset>utf8</charset>
+        </encoder>       
+    </appender>
+ 
+    <!-- Root level logger configuration -->
+    <root level="WARN">
+        <appender-ref ref="console"/>
+    </root>
+     
+    <!-- Control the logging levels for various loggers -->
+    <logger name="org.springframework" level="WARN"/>
+</configuration>

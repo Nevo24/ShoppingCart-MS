@@ -1,0 +1,237 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+		<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+	<artifactId>shoppingcart-checkout-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<parent>
+		<groupId>com.amdocs.msbase</groupId>
+		<artifactId>msb-parent</artifactId>
+		<version>1.4.0</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<properties>
+		<swagger-file.artifactId>shoppingcart-checkout-api</swagger-file.artifactId>
+        <!-- Support for Fabric8 -->
+		<docker.image.name>shoppingcart-checkout-service</docker.image.name>
+        <docker.image.release>1</docker.image.release>
+        <!-- Kubernetes host need to be overridden when invoking maven & working with remote K8s setup -->
+        <kubernetes.host>localhost</kubernetes.host>
+        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <!-- READ THIS BEFORE CHANGING THE JACOCO REOPORT LOCATIONA!!! -->
+        <!-- 1. All modules' jacoco data need to go to the same location and append to a single file. -->
+        <!-- 2. The clean goals of each module will delete the jacoco file accumulated so far! -->
+        <!-- 3. This project, i.e. parent, is always the first module to be built-->
+        <!--    Its clean goal runs before any jacoco data is generated -->
+        <!--    Hence it is the only project you can place the jacoco file. -->
+        <!-- 4. However, our MSs currently are 3 layer deep and can go deeper -->
+        <!-- 5. So the relative path trick you see in various guidelines will NOT work! -->
+        <!-- 6. They all assume your project tree is 2 layer deep and all modules sit at layer 2  -->
+        <!-- 7. Maven (intentionally) does not provide a way to navigate to the root module from an arbitrary sub-module! -->
+        <!-- 8. This is due to some interesting Maven philosophy. So don't bother ask for it. -->
+        <!-- 9. Hence the temp dir, reliably reachable from any sub-module of any depth.  -->
+        <sonar.jacoco.dir>${java.io.tmpdir}/sonar.jacoco/${project.groupId}</sonar.jacoco.dir>
+        <sonar.jacoco.reportPath>${sonar.jacoco.dir}/jacoco-unit.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>${sonar.jacoco.dir}/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.coverage.exclusions>**/ms/**/config/**/*, **/ms/**/autolog/**/*</sonar.coverage.exclusions>        
+        <sonar.cpd.exclusions>**/ms**/**/*Exception.java</sonar.cpd.exclusions> <!-- duplicates per method just a few lines.  Clearer as is -->
+        <!-- jacoco:dump destination -->
+        <jacoco.destFile>${sonar.jacoco.reportPath}</jacoco.destFile>
+        <!-- nodePort on which Remote Jacoco agent service will listen in K8s -->
+        <jacoco.port>31350</jacoco.port>
+        <!-- enable/disable jacoco -->
+        <jacoco.enabled>1</jacoco.enabled>        
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-api</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-resourcegen</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-services</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-services-impl</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-internationalization</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-resources</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-resources-impl</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-persistence</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-persistence-impl</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-exe</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-client-kit</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-gateways</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-gateways-impl</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-autolog</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-test-pact</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-tests</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<!-- Change following as per your dependencies on other ms
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>api-productorder-productorder</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>api-shoppingcart-shoppingcart</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+			</dependency>
+			-->
+			
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>external-client-kit</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+				<artifactId>shoppingcart-checkout-gen-module</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>copy</id>
+							<phase>initialize</phase>
+							<goals>
+								<goal>copy</goal>
+							</goals>
+							<configuration>
+								<artifactItems>
+									<artifactItem>
+										<groupId>${project.groupId}</groupId>
+										<artifactId>${swagger-file.artifactId}</artifactId>
+										<version>${project.version}</version>
+										<type>yaml</type>
+										<overWrite>true</overWrite>
+										<outputDirectory>${project.build.directory}</outputDirectory>
+										<destFileName>${swagger-file.artifactId}.yaml</destFileName>
+									</artifactItem>
+								</artifactItems>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>aspectj-maven-plugin</artifactId>
+					<configuration>
+						<complianceLevel>1.8</complianceLevel>
+						<includes>
+							<include>**/*.java</include>
+							<include>**/*.aj</include>
+						</includes>
+						<showWeaveInfo>true</showWeaveInfo>
+					</configuration>
+					<executions>
+						<execution>
+							<id>compile_with_aspectj</id>
+							<goals>
+								<goal>compile</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-antrun-plugin</artifactId>
+	            <executions>
+	                <execution>
+	                    <id>sonar.jacoco.dir</id>
+	                    <phase>process-resources</phase>
+	                    <!-- Don't run this in children! -->
+	                    <inherited>false</inherited>
+	                    <configuration>
+	                        <target>
+	                            <delete dir="${sonar.jacoco.dir}"/>
+	                            <mkdir dir="${sonar.jacoco.dir}"/>
+	                        </target>
+	                    </configuration>
+	                    <goals>
+	                        <goal>run</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	         </plugin>
+		</plugins>
+	</build>
+</project>

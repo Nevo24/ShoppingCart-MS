@@ -1,0 +1,5 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.amdocs.digital.ms.shoppingcart.checkout.business.config.ApplicationServicesConfig,\
+com.amdocs.digital.ms.shoppingcart.checkout.business.config.BusinessModelsConfig,\
+com.amdocs.digital.ms.shoppingcart.checkout.business.config.DomainServicesConfig

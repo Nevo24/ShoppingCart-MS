@@ -1,0 +1,208 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+        <artifactId>shoppingcart-checkout-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../shoppingcart-checkout-parent</relativePath>
+    </parent>
+
+    <properties>
+        <start-class>com.amdocs.msbase.app.Application</start-class>
+    </properties>
+    <artifactId>shoppingcart-checkout-exe</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <dependencies>
+        <dependency>
+            <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+            <artifactId>shoppingcart-checkout-resources-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+            <artifactId>shoppingcart-checkout-services-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+            <artifactId>shoppingcart-checkout-persistence-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+            <artifactId>shoppingcart-checkout-gateways-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+            <artifactId>shoppingcart-checkout-internationalization</artifactId>
+        </dependency>
+
+        <!-- nextms-psm dependencies (test purpose only) -->
+        <dependency>
+            <groupId>com.amdocs.msnext</groupId>
+            <artifactId>msnext-boot-test-starter</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
+            <!-- TODO: MSNext fails with ClassCastException if not excluded -->
+            <exclusions>
+                 <exclusion>
+                     <groupId>com.amdocs.msnext</groupId>
+                     <artifactId>customization-plugin</artifactId>
+                 </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.msbase</groupId>
+            <artifactId>msb-spring-boot-app</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+            <artifactId>shoppingcart-checkout-gen-module</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- TODO: zipkin dependency should be included as a separate module/no 
+            starter -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+
+        <!-- Hystrix-Feign support -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.archaius</groupId>
+            <artifactId>archaius-core</artifactId>
+        </dependency>
+        <!-- End -->
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <wait>1000</wait>
+                <maxAttempts>180</maxAttempts>
+            </configuration>
+            </plugin>
+        
+            <!-- Copy the shoppingcart-checkout-gen-module from the maven repo to a temp location, 
+                 so we can include it when building the shoppingcart-checkout-service docker image -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <overWriteReleases>false</overWriteReleases>
+                    <overWriteSnapshots>true</overWriteSnapshots>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-docker-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+                                    <artifactId>shoppingcart-checkout-gen-module</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/addJars</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Copy any additional configuration files for MSNext runtime which overrides the defaults -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/conf.d</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/conf.d</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Create shoppingcart-checkout-service docker image -->
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-maven-plugin</artifactId>
+                <configuration>
+                    <!-- need to disable this to be able to test -->
+                    <enricher>
+                        <excludes>
+                            <exclude>fmp-project</exclude>
+                        </excludes>
+                    </enricher>
+                    <verbose>true</verbose>
+                    <images>
+                        <image>
+                            <name>${docker.push.registry}/${docker.image.name}:${project.version}-${docker.image.release}</name>
+                            <build>
+                                <from>${docker.pull.registry}/amd_msnext_rhel73_openjdk8:${msnext.version}</from>
+                                <assembly>
+                                    <mode>dir</mode>
+                                    <basedir>/opt/amdocs/msnext</basedir>
+                                    <inline>
+                                        <id>add-shoppingcart-checkout-ms-files</id>
+                                        <fileSets>
+                                            <fileSet>
+                                                <directory>${project.build.directory}</directory>
+                                                <includes>
+                                                    <include>*.jar</include>
+                                                </includes>
+                                                <outputDirectory>deploy</outputDirectory>
+                                            </fileSet>
+                                            <fileSet>
+                                                <directory>${project.build.directory}/addJars</directory>
+                                                <includes>
+                                                    <include>*.jar</include>
+                                                </includes>
+                                                <outputDirectory>deploy</outputDirectory>
+                                            </fileSet>
+                                            <fileSet>
+                                                <directory>${project.build.directory}/conf.d</directory>
+                                                <includes>
+                                                    <include>**.*</include>
+                                                </includes>
+                                                <outputDirectory>etc/conf.d</outputDirectory>
+                                            </fileSet>
+                                        </fileSets>
+                                    </inline>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>fmp</id>
+                        <goals>
+                            <goal>resource</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

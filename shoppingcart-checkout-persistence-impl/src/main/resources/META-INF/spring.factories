@@ -1,0 +1,4 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.amdocs.digital.ms.shoppingcart.checkout.couchbase.config.RepositoriesConfig,\
+com.amdocs.digital.ms.shoppingcart.checkout.couchbase.config.RepositoryErrorHandlerConfig

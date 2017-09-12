@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+    <artifactId>shoppingcart-checkout-reactor</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <modules>
+        <module>shoppingcart-checkout-parent</module>        
+        <module>shoppingcart-checkout-aspect-parent</module>
+        <module>shoppingcart-checkout-api</module>
+        <module>shoppingcart-checkout-autolog</module>
+        <module>shoppingcart-checkout-client-kit</module>
+        <module>shoppingcart-checkout-resourcegen</module>
+        <module>shoppingcart-checkout-resources</module>
+        <module>shoppingcart-checkout-resources-impl</module>
+        <module>shoppingcart-checkout-exe</module>
+        <module>shoppingcart-checkout-services</module>
+        <module>shoppingcart-checkout-services-impl</module>
+        <module>shoppingcart-checkout-persistence</module>
+        <module>shoppingcart-checkout-persistence-impl</module>
+        <module>shoppingcart-checkout-external-api</module>
+        <module>shoppingcart-checkout-gateways</module>
+        <module>shoppingcart-checkout-gateways-impl</module>
+        <module>shoppingcart-checkout-gen-module</module>
+        <module>shoppingcart-checkout-internationalization</module>
+        <module>shoppingcart-checkout-test-pact</module>
+        <module>shoppingcart-checkout-tests</module>
+    </modules>
+    
+    <build>
+        <plugins>
+            <!-- Skip deploying this project to a remote Artifactory/Nexus.  We only use it when building. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

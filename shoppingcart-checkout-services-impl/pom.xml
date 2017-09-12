@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+        <artifactId>shoppingcart-checkout-aspect-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../shoppingcart-checkout-aspect-parent</relativePath>
+    </parent>
+    <artifactId>shoppingcart-checkout-services-impl</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <dependencies>
+        <dependency>
+            <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+            <artifactId>shoppingcart-checkout-services</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.msnext</groupId>
+            <artifactId>spring-base-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.msbase</groupId>
+            <artifactId>msb-query-params</artifactId>
+        </dependency>
+    </dependencies>
+</project>

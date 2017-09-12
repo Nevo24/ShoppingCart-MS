@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+		<artifactId>shoppingcart-checkout-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../shoppingcart-checkout-parent</relativePath>
+	</parent>
+	<artifactId>shoppingcart-checkout-external-api</artifactId>
+	<packaging>pom</packaging>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<modules>
+		<module>external-client-kit</module>
+		<!-- Add required ms dependencies as below -->
+		<!-- <module>api-productorder-productorder</module> -->
+		<!-- <module>api-shoppingcart-shoppingcart</module> -->			
+	</modules>
+	<build>
+        <plugins>
+            <!-- Skip deploying this project to a remote Artifactory/Nexus.  We only use it when building. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

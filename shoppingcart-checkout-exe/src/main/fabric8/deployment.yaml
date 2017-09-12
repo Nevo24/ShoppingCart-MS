@@ -1,0 +1,101 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  annotations:
+    fabric8.io/iconUrl: "img/icons/spring-boot.svg"
+    pod.beta.kubernetes.io/init-containers: '[{
+      "image":"busybox",
+      "imagePullPolicy":"IfNotPresent",
+      "name":"check-couchbase",
+      "command": ["sh","-c","timeout=0;
+                             while [[  $timeout -lt 90 ]];
+                             do
+                                wget -q -O- -c http://couchbase-service:8091/ui/index.html > /dev/null;
+                                if [ $? -ne 0 ];
+                                then
+                                   timeout=$(( timeout + 2 ));
+                                   echo $timeout;
+                                else
+                                   break;
+                                fi;
+                             done"]},
+{
+      "image":"byrnedo/alpine-curl",
+      "imagePullPolicy":"IfNotPresent",
+      "name":"create-bucket",
+      "command": ["sh","-c","bucketName=com.amdocs.digital.ms.shoppingcart.checkout;
+                             auth=Administrator:Administrator;
+                             server=couchbase-service;
+                             curl --fail -X POST -u $auth -d 
+                                  name=$bucketName -d ramQuotaMB=100
+                                  -d authType=none -d proxyPort=1323
+                                  http://$server:8091/pools/default/buckets;
+                             curl --fail -u $auth 
+                                  http://$server:8091/pools/default/buckets/$bucketName"]}]'
+
+  labels:
+    provider: "amdocs"
+    project: "${docker.image.name}"
+    version: "${project.version}"
+    group: "${project.groupId}"
+  name: "${docker.image.name}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: "${docker.image.name}"
+      provider: "amdocs"
+      group: "${project.groupId}"
+  template:
+    metadata:
+      annotations:
+        fabric8.io/iconUrl: "img/icons/spring-boot.svg"
+      labels:
+        provider: "amdocs"
+        project: "${docker.image.name}"
+        version: "${project.version}"
+        group: "${project.groupId}"
+    spec:
+      containers:
+      - env:
+        - name: "KUBERNETES_NAMESPACE"
+          valueFrom:
+            fieldRef:
+              fieldPath: "metadata.namespace"
+        - name: "DOX_JAVA_OPTS"
+          value: "-Dloader.main=com.amdocs.msbase.app.Application"        
+        - name: "DOX_EXCLUDED_MODULES"
+          value: "msnext-customization"
+        - name: "MANAGEMENT_PORT"
+          value: "18080"        
+        - name: "SERVER_PORT"
+          value: "8080"        
+        image: "${docker.push.registry}/${docker.image.name}:${project.version}-${docker.image.release}"
+        imagePullPolicy: "IfNotPresent"
+        livenessProbe:
+          httpGet:
+            path: "/health"
+            port: 18080
+          initialDelaySeconds: 180
+        name: "${docker.image.name}-container"
+        ports:
+        - containerPort: 8080
+          name: "http"
+          protocol: "TCP"
+        - containerPort: 6300
+          name: "jacoco"
+          protocol: "TCP"
+        - containerPort: 18080
+          name: "management"
+          protocol: "TCP"
+        readinessProbe:
+          httpGet:
+            path: "/health"
+            port: 18080
+          initialDelaySeconds: 10
+        securityContext:
+          privileged: false
+      imagePullSecrets:
+        - name: "${image.pull.secret}"
+ 

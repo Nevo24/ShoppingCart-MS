@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+		<artifactId>shoppingcart-checkout-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../shoppingcart-checkout-parent</relativePath>
+	</parent>
+	<artifactId>shoppingcart-checkout-tests</artifactId>
+	<name>${project.groupId}:${project.artifactId}</name>
+
+	<dependencies>
+		<!-- Micro service dependencies -->
+		<dependency>
+			<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+			<artifactId>shoppingcart-checkout-gen-module</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+			<artifactId>shoppingcart-checkout-client-kit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+			<artifactId>shoppingcart-checkout-exe</artifactId>
+		</dependency>
+		<!-- MSB/MSNext -->
+		<dependency>
+			<groupId>com.amdocs.msnext</groupId>
+			<artifactId>msnext-boot-test-starter</artifactId>
+			<type>pom</type>
+		</dependency>
+
+		<!-- Support for Fabric8 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-netflix-core</artifactId>
+		</dependency>
+
+		<!-- Test using Fabric8 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>fabric8-arquillian</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>kubernetes-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.retry</groupId>
+			<artifactId>spring-retry</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<destFile>${sonar.jacoco.reportPath}</destFile>
+							<append>true</append>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

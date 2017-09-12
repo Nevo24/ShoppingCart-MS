@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AjcSettings">
+    <option name="ajcPath" value="$MAVEN_REPOSITORY$/org/aspectj/aspectjtools/1.8.9/aspectjtools-1.8.9.jar" />
+    <option name="cmdLineParams" value="-showWeaveInfo" />
+    <option name="delegateToJavac" value="true" />
+  </component>
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="ajc" />
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="external-client-kit" />
+        <module name="shoppingcart-checkout-autolog" />
+        <module name="shoppingcart-checkout-client-kit" />
+        <module name="shoppingcart-checkout-exe" />
+        <module name="shoppingcart-checkout-gateways" />
+        <module name="shoppingcart-checkout-gateways-impl" />
+        <module name="shoppingcart-checkout-gen-module" />
+        <module name="shoppingcart-checkout-internationalization" />
+        <module name="shoppingcart-checkout-persistence" />
+        <module name="shoppingcart-checkout-persistence-impl" />
+        <module name="shoppingcart-checkout-resourcegen" />
+        <module name="shoppingcart-checkout-resources" />
+        <module name="shoppingcart-checkout-resources-impl" />
+        <module name="shoppingcart-checkout-services" />
+        <module name="shoppingcart-checkout-services-impl" />
+        <module name="shoppingcart-checkout-test-pact" />
+        <module name="shoppingcart-checkout-tests" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="external-client-kit" target="1.8" />
+      <module name="shoppingcart-checkout-api" target="1.8" />
+      <module name="shoppingcart-checkout-aspect-parent" target="1.8" />
+      <module name="shoppingcart-checkout-autolog" target="1.8" />
+      <module name="shoppingcart-checkout-client-kit" target="1.8" />
+      <module name="shoppingcart-checkout-exe" target="1.8" />
+      <module name="shoppingcart-checkout-external-api" target="1.8" />
+      <module name="shoppingcart-checkout-gateways" target="1.8" />
+      <module name="shoppingcart-checkout-gateways-impl" target="1.8" />
+      <module name="shoppingcart-checkout-gen-module" target="1.8" />
+      <module name="shoppingcart-checkout-internationalization" target="1.8" />
+      <module name="shoppingcart-checkout-parent" target="1.8" />
+      <module name="shoppingcart-checkout-persistence" target="1.8" />
+      <module name="shoppingcart-checkout-persistence-impl" target="1.8" />
+      <module name="shoppingcart-checkout-reactor" target="1.5" />
+      <module name="shoppingcart-checkout-resourcegen" target="1.8" />
+      <module name="shoppingcart-checkout-resources" target="1.8" />
+      <module name="shoppingcart-checkout-resources-impl" target="1.8" />
+      <module name="shoppingcart-checkout-services" target="1.8" />
+      <module name="shoppingcart-checkout-services-impl" target="1.8" />
+      <module name="shoppingcart-checkout-test-pact" target="1.8" />
+      <module name="shoppingcart-checkout-tests" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

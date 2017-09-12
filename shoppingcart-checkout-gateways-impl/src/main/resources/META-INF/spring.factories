@@ -1,0 +1,8 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.amdocs.digital.ms.shoppingcart.checkout.gateways.config.AsyncChannelsConfig,\
+com.amdocs.digital.ms.shoppingcart.checkout.gateways.config.AsyncMessagingConfig,\
+com.amdocs.digital.ms.shoppingcart.checkout.gateways.config.GatewayApplicationServiceConfig,\
+com.amdocs.digital.ms.shoppingcart.checkout.gateways.config.GatewayConfig,\
+com.amdocs.digital.ms.shoppingcart.checkout.gateways.config.GatewayErrorHandlerConfig,\
+com.amdocs.digital.ms.shoppingcart.checkout.gateways.config.GatewayMappersConfig

@@ -1,0 +1,129 @@
+
+#                            Couchbase Settings                                #
+
+
+couchbase:
+  providers:
+    - 
+      name: 'cbProvider'
+#Couchbase environment config - start
+      env:
+        clusterUrl: 'couchbase-service'
+        bucketName: 'com.amdocs.digital.ms.shoppingcart.checkout'
+        ioPoolSize: 12
+        computationPoolSize: 12
+        requestBufferSize: 131072
+        responseBufferSize: 131072
+#Couchbase environment config - end
+#Couchbase provider config - start
+      prop:
+        #in milliseconds 
+        timeout: 60000
+      retry:
+        #one of exponential, linear, and fixed.
+        strategy: 'exponential'
+        #parameters for delay. populate if needed. for fixed strategy upperBound is used as the sole parameter.
+        upperBound: 500
+        lowerBound: 50
+        maxAttempts: 10
+#Couchbase provider config - end
+
+
+#                            Application Settings                              #
+
+
+server:
+  contextPath: '/checkout-management'
+  port: 8080
+    
+#External services - Add URIs of required services here - for dev purpose - May get replaced with service discovery
+#services:  
+#  checkout:
+#    url: 'http://shoppingcart-checkout-service:8080/checkout-management'
+#  shoppingCart:
+#    url: 'http://shoppingcart-shoppingcart-service:8080/shoppingcart-management'
+#  productOrder:
+#    url: 'http://productorder-productorder-service:8080/productorder-management'
+  
+#Logging
+logging:
+  level:
+    org:
+      springframework: WARN
+#        web: 'DEBUG'
+#        context: 'DEBUG'
+# make TRACE to test full autolog
+      apache: WARN
+    com:
+      amdocs:
+        digital:
+          ms: 'WARN'
+        msbase:
+          app:
+# see Started Application message
+            Application: 'INFO'
+
+spring:
+#disable talking to zipkin server
+  zipkin:
+    enabled: false
+#Messages
+  messages:
+    basename: 'resources-messages/resources-messages, services-messages/services-messages'
+#    cache-seconds: -1
+#    encoding: UTF-8
+#Async messaging
+  cloud:
+    stream:
+      kafka:
+       binder:
+        autoCreateTopics: false
+        #add all kafka brokers below comma separated
+        brokers: kafka-service:9092
+        #comma separated zookeeper servers
+        zkNodes: zoo1:2181
+      bindings:
+        Checkout_publish:
+          destination: Checkout
+          contentType: application/custom-json
+          partitionCount: 1
+          partitionKeyExtractorClass: com.amdocs.msb.asyncmessaging.message.resource.ResourcesPartitionKeyExtractor
+        Checkout_Resources_publish:
+          destination: Checkout_Resources
+          contentType: application/custom-json
+          partitionCount: 1
+          partitionKeyExtractorClass: com.amdocs.msb.asyncmessaging.message.resource.ResourcesPartitionKeyExtractor
+      enabled: false
+#Enable it only if needed when enabling kafka      
+  sleuth:
+    stream:
+      enabled: false
+            
+feign:
+  hystrix:
+    enabled: true
+
+#Currently Hystrix timeout is set to 30 seconds for testing. Not optimal for production use.
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: "THREAD"
+          thread:
+            timeoutInMilliseconds: "30000"
+
+#disable security for now.    
+security:
+  basic:
+    enabled: false
+    
+#Internationalization
+com:
+  amdocs:
+    digital:
+      ms:
+        #single value
+        default-locale: 'en-US'
+        #comma separated list
+        supported-locales: 'en-US'

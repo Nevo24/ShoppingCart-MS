@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>shoppingcart-checkout-test-providerstate</artifactId>
+
+    <parent>
+        <groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+        <artifactId>shoppingcart-checkout-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../shoppingcart-checkout-parent</relativePath>
+    </parent>
+
+    <dependencies>
+
+        <dependency>
+        	<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+        	<artifactId>shoppingcart-checkout-resources</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+        	<artifactId>shoppingcart-checkout-persistence</artifactId>
+        </dependency>
+		<!--  Support for Fabric8 -->
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>com.amdocs.msnext</groupId>
+            <artifactId>msnext-boot-test-starter</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+        	<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+        	<artifactId>shoppingcart-checkout-client-kit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-netflix-core</artifactId>
+        </dependency>
+		
+        <!-- Test using Fabric8 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+
+        <dependency>
+        	<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+        	<artifactId>shoppingcart-checkout-exe</artifactId>
+        </dependency>
+
+
+        <dependency>
+        	<groupId>com.amdocs.digital.ms.shoppingcart.checkout</groupId>
+        	<artifactId>shoppingcart-checkout-gen-module</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

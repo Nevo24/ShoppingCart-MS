@@ -1,0 +1,7 @@
+module:
+  name: core-shoppingcart-checkout
+  requires: 
+    - shoppingcart-checkout-gen
+  base-packages: 
+    - com.amdocs.digital.ms.shoppingcart.checkout
+  resources: core-shoppingcart-checkout-config.yaml

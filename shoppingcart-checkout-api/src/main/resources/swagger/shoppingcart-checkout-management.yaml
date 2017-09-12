@@ -1,0 +1,487 @@
+swagger: '2.0'
+ 
+################################################################################
+#                              API Information                                 #
+################################################################################
+ 
+info:
+  version: v10.2
+  title: Checkout Management
+  description: |
+   This service manages checkout of checkout, creating a product order.
+ 
+  license:
+    name: Amdocs Inc.
+    url: ""
+  contact:
+    name: Amdocs Inc.
+    url: http://www.amdocs.com
+    email: support@amdocs.com
+ 
+x-dox-DesignDocs:
+- description: |
+    Checkout module architecture 
+  url: http://confluence/display/OMM/Checkout+-+Module+Architecture
+   
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+ 
+# Dummy host
+host: amdocs.com:10101
+# port: 10251
+ 
+basePath: /checkout-management
+ 
+schemes:
+- https
+ 
+#
+# Resources
+#
+paths:
+  /checkouts:
+    post:
+      x-dox-Since: v10.2
+      tags:
+      - "Checkout"
+      operationId: createCheckout
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      description: |
+        This service checks out a checkout creating a product order. This is the TASK flavor.
+      parameters:
+      - $ref: "#/parameters/header-locale"
+      - in: body
+        name: ShoppingCartID
+        description: Shopping Cart to checkout.
+        required: true
+        schema:
+          $ref: "#/definitions/ShoppingCartID"
+      responses:
+        200:
+          description: |
+            *OK* - checkout checked out successfully.
+          schema:
+            $ref: "#/definitions/Checkout"
+          headers:
+            Etag:
+              x-dox-Since: v10.2
+              description: |
+                entity tag
+              type: string
+        400:
+          $ref: "#/responses/400-BadRequest"
+        404:
+          $ref: "#/responses/404-NotFound"
+        405:
+          $ref: "#/responses/405-MethodNotAllowed"
+        409:
+          $ref: "#/responses/409-Conflict"
+        412:
+          $ref: "#/responses/412-PreconditionFailed"
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        502:
+          $ref: "#/responses/500-BadGateway" 
+        default:
+          $ref: "#/responses/500-InternalServerError"
+ 
+  /checkouts/{checkoutId}:
+    get:
+      x-dox-Since: v10.2
+      tags:
+      - "Checkout"
+      operationId: getCheckout
+      description: |
+        This service retrieves a checkout by it's id.
+      parameters:
+      - $ref: "#/parameters/header-locale"
+      - $ref: "#/parameters/path-checkout-id"
+      responses:
+        200:
+          description: |
+            *OK* - checkout retrieved successfully
+          schema:
+            $ref: "#/definitions/Checkout"
+          headers:
+            Etag:
+              x-dox-Since: v10.2
+              description: |
+                entity tag
+              type: string
+        400:
+          $ref: "#/responses/400-BadRequest"
+        404:
+          $ref: "#/responses/404-NotFound"
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        default:
+          $ref: "#/responses/500-InternalServerError"
+    patch:
+      x-dox-Since: v10.2
+      tags:
+      - "Checkout"
+      operationId: patchCheckout
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      description: |
+        This service allows partial update checkout resource - to update the state to confirmed.
+      parameters:
+      - $ref: "#/parameters/header-locale"
+      - $ref: "#/parameters/header-if-match"
+      - $ref: "#/parameters/path-checkout-id"
+      - in: body
+        name: CheckoutPatch
+        description: patch request to update checkout items and it's related entities
+        required: true
+        schema:
+          type :  array
+          items  :
+             $ref: "#/definitions/PatchElement"
+      responses:
+        200:
+          description: |
+            *OK* - checkout got updated successfully.
+          schema:
+            $ref: "#/definitions/Checkout"
+          headers:
+            Etag:
+              x-dox-Since: v10.2
+              description: |
+                entity tag
+              type: string
+        400:
+          $ref: "#/responses/400-BadRequest"
+        404:
+          $ref: "#/responses/404-NotFound"
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        502:
+          $ref: "#/responses/500-BadGateway" 
+        default:
+          $ref: "#/responses/500-InternalServerError"
+    put:
+      x-dox-Since: v10.2
+      tags:
+      - "Checkout"
+      operationId: updateCheckout
+      description: |
+        Updates Checkout resource.
+      parameters:
+      - $ref: "#/parameters/header-locale"
+      - $ref: "#/parameters/header-if-match"
+      - $ref: "#/parameters/path-checkout-id"
+      - in: body
+        name: CheckoutPut
+        description: |
+          The 'checkout' to update
+        required: true
+        schema:
+          $ref: "#/definitions/Checkout"
+      responses:
+        200:
+          description: |
+            *OK* - The checkout was updated successfully
+          schema:
+            $ref: "#/definitions/Checkout"
+          headers:
+            Etag:
+              x-dox-Since: v10.2
+              description: |
+                entity tag
+              type: string
+        400:
+          $ref: "#/responses/400-BadRequest"
+        404:
+          $ref: "#/responses/404-NotFound"
+        500:
+          $ref: "#/responses/500-InternalServerError" 
+        502:
+          $ref: "#/responses/500-BadGateway"           
+        default:
+          $ref: "#/responses/500-InternalServerError"         
+ 
+#
+# Parameters
+#
+parameters:
+ 
+#
+# Standard Amdocs REST query parameters
+#
+ 
+  header-locale:
+    x-dox-Since: v10.2
+    name: Accept-Language
+    in: header
+    description: |
+      client's locale
+    type: string
+ 
+  header-if-match:
+    x-dox-Since: v10.2
+    name: If-Match
+    in: header
+    description: |
+      entity tag for version of resource to update
+    type: string
+ 
+#
+# Additional business Amdocs REST query parameters
+#
+ 
+  path-checkout-id:
+    x-dox-Since: v10.2
+    name: checkoutId
+    in: path
+    description: |
+      checkout id
+    required: true
+    type: string
+ 
+#
+# Definitions
+#
+definitions:
+ 
+  Checkout:
+    x-dox-Since: v10.2
+    description: |
+      Checkout resource
+    type: object
+    properties:
+      id:
+        description: |
+          id of checkout
+        type: string
+      href:
+        type: string
+        format: url
+        description: |
+          The href to the item
+      state:
+        description: |
+          state of checkout
+        type: string
+      relatedParty:
+        type :  array
+        items  :
+           $ref: "#/definitions/RelatedPartyRef"
+      shoppingCart:
+        $ref: "#/definitions/ShoppingCartRef"
+      productOrder:
+        $ref: "#/definitions/ProductOrderRef"
+ 
+  RelatedPartyRef:
+    x-dox-Since: v10.2
+    description: |
+      it contains reference of 'CustomerRef'.
+    type: object
+    allOf:
+    - $ref: "#/definitions/Link"
+    - type: object
+      properties:
+        id:
+         description: |
+            id of related party
+         type: string
+        name:
+         description: |
+            name of related party'
+         type: string
+        role:
+         description: |
+            Role of related party
+         type: string
+ 
+  ShoppingCartID:
+    x-dox-Since: v10.2
+    description: |
+      it contains id of 'ShoppingCart'
+    type: object
+    properties:
+      id:
+       description: |
+          id of 'ShoppingCart'
+       type: string
+ 
+  ShoppingCartRef:
+    x-dox-Since: v10.2
+    description: |
+      it contains reference of 'ShoppingCart'
+    type: object
+    properties:
+      id:
+       description: |
+          id of 'ShoppingCart'
+       type: string
+      href:
+        type: string
+        format: url
+        description: |
+          The href to the item
+ 
+  ProductOrderRef:
+    x-dox-Since: v10.2
+    description: |
+      it contains reference of 'ProductOrder'
+    type: object
+    properties:
+      id:
+       description: |
+          id of'ProductOrder'
+       type: string
+      href:
+        type: string
+        format: url
+        description: |
+          The href to the item
+ 
+  ErrorResponse:
+    x-dox-Since: v10.2
+    description: |
+      Response containing descriptive error text, error code
+    type: object
+    properties:
+      link:
+        type: string
+        format: url
+        description: |
+          The href to the item
+      rel:
+        type: string
+        description: |
+          The relation type for the item
+        default: help
+      code:
+        description: |
+          The code associated with the error
+        type: string
+      message:
+        description: |
+          The message associated with the error
+        type: string
+ 
+  Link:
+    x-dox-Since: v10.2
+    type: object
+    discriminator: link
+    description: |
+      It manifests all permissble href types representation for a link.
+    required:
+    - href
+    - rel
+    properties:
+      href:
+        type: string
+        format: url
+        description: |
+          The href to the item
+      rel:
+        type: string
+        description: |
+          The relation type for the item
+#        enum:
+#        - self
+#        - prev
+#        - next
+#        - alternate
+#        - first
+#        - last
+#        - current
+#        - edit
+#        - enclosure
+#        - related
+#        - replies
+#        - up
+#        - help
+   
+  PatchElement:
+    x-dox-Since: v10.2
+    description: |
+      The 'PatchElement' object
+    properties:
+      op:
+        description: |
+          The operation of this 'PatchElement', 'add', 'remove', 'replace'
+        type: string
+#        enum: 
+#        - add
+#        - remove
+#        - replace
+#        - move
+#        - copy
+#        - test
+      path:
+        type: string
+        description: |
+          The path of this 'PatchElement' (e.g. '/state')
+      value:
+        description: |
+          The value of this 'PatchElement'
+        type: object
+ 
+ 
+#
+# Responses
+#
+responses:
+  400-BadRequest:
+    x-dox-Since: v10.2
+    description: |
+      *Bad Request* - Indicates that client has sent malformed request.
+      Possibly missing mandatory query parameters, invalid value
+      in query parameters, validation exception etc.
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+ 
+  404-NotFound:
+    x-dox-Since: v10.2
+    description: |
+      *Not Found* - Indicates server has not found the requested URI.
+      Possibly missing path parameters, invalid web resource etc.
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+ 
+ 
+  405-MethodNotAllowed:
+    x-dox-Since: v10.2
+    description: |
+      *Method Not Allowed* - .
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+ 
+  409-Conflict:
+    x-dox-Since: v10.2
+    description: |
+      *Conflict* - .
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+ 
+  412-PreconditionFailed:
+    x-dox-Since: v10.2
+    description: |
+      *Precondition Failed* - .
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+   
+  500-InternalServerError:
+    x-dox-Since: v10.2
+    description: |
+      *Internal Server Error* - server failed in handling the
+      client request.
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+       
+  502-BadGateway:
+    x-dox-Since: v10.2
+    description: |
+      *Bad Gateway* - .
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-external-api/external-client-kit/external-client-kit.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-external-api/external-client-kit/external-client-kit.iml" group="shoppingcart-checkout-external-api and modules" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-api/shoppingcart-checkout-api.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-api/shoppingcart-checkout-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-aspect-parent/shoppingcart-checkout-aspect-parent.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-aspect-parent/shoppingcart-checkout-aspect-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-autolog/shoppingcart-checkout-autolog.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-autolog/shoppingcart-checkout-autolog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-client-kit/shoppingcart-checkout-client-kit.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-client-kit/shoppingcart-checkout-client-kit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-exe/shoppingcart-checkout-exe.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-exe/shoppingcart-checkout-exe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-external-api/shoppingcart-checkout-external-api.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-external-api/shoppingcart-checkout-external-api.iml" group="shoppingcart-checkout-external-api and modules" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-gateways/shoppingcart-checkout-gateways.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-gateways/shoppingcart-checkout-gateways.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-gateways-impl/shoppingcart-checkout-gateways-impl.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-gateways-impl/shoppingcart-checkout-gateways-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-gen-module/shoppingcart-checkout-gen-module.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-gen-module/shoppingcart-checkout-gen-module.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-internationalization/shoppingcart-checkout-internationalization.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-internationalization/shoppingcart-checkout-internationalization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-parent/shoppingcart-checkout-parent.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-parent/shoppingcart-checkout-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-persistence/shoppingcart-checkout-persistence.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-persistence/shoppingcart-checkout-persistence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-persistence-impl/shoppingcart-checkout-persistence-impl.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-persistence-impl/shoppingcart-checkout-persistence-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-reactor.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-reactor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-resourcegen/shoppingcart-checkout-resourcegen.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-resourcegen/shoppingcart-checkout-resourcegen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-resources/shoppingcart-checkout-resources.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-resources/shoppingcart-checkout-resources.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-resources-impl/shoppingcart-checkout-resources-impl.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-resources-impl/shoppingcart-checkout-resources-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-services/shoppingcart-checkout-services.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-services/shoppingcart-checkout-services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-services-impl/shoppingcart-checkout-services-impl.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-services-impl/shoppingcart-checkout-services-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-test-pact/shoppingcart-checkout-test-pact.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-test-pact/shoppingcart-checkout-test-pact.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-tests/shoppingcart-checkout-tests.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-tests/shoppingcart-checkout-tests.iml" />
+    </modules>
+  </component>
+</project>

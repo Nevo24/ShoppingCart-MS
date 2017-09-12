@@ -1,0 +1,66 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=docker-couchbase&var-version=1.0-SNAPSHOT
+  name: couchbase-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      provider: amdocs
+      role: admin
+      type: couchbase-server
+  template:
+    metadata:
+      annotations:
+        fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=docker-couchbase&var-version=1.0-SNAPSHOT
+      labels:
+        provider: amdocs
+        type: couchbase-server
+        role: admin
+    spec:
+      containers:
+      - args:
+        - admin
+        env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: illin5225.corp.amdocs.com:5000/docker-couchbase:latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /ui/index.html
+            port: 8091
+          initialDelaySeconds: 180
+        name: docker-couchbase-container
+        ports:
+        - containerPort: 8091
+          protocol: TCP
+        - containerPort: 8092
+          protocol: TCP
+        - containerPort: 8093
+          protocol: TCP
+        - containerPort: 8094
+          protocol: TCP
+        - containerPort: 11210
+          protocol: TCP
+        - containerPort: 11207
+          protocol: TCP
+        - containerPort: 18091
+          protocol: TCP
+        - containerPort: 18092
+          protocol: TCP
+        - containerPort: 18093
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /ui/index.html
+            port: 8091
+          initialDelaySeconds: 10
+        securityContext:
+          privileged: false        
+      imagePullSecrets:
+      - name: nexus-secret      

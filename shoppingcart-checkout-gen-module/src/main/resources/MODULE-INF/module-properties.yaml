@@ -1,0 +1,6 @@
+module:
+  name: core-shoppingcart-checkout-gen
+  requires: 
+    - msnext-root
+  tags: 
+    - shoppingcart-checkout-gen

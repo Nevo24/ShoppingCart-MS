@@ -1,0 +1,33 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  annotations:
+    fabric8.io/iconUrl: "img/icons/spring-boot.svg"
+  labels:
+    expose: "true"
+    provider: "amdocs"
+    project: "${docker.image.name}"
+    version: "${project.version}"
+    group: "${project.groupId}"
+  name: "${docker.image.name}"
+spec:
+  ports:    
+  - name: "http"
+    port: 8080
+    protocol: "TCP"
+    targetPort: 8080
+  - name: "jacoco"
+    port: 6300
+    protocol: "TCP"
+    targetPort: 6300
+  - name: "management"
+    port: 18080
+    protocol: "TCP"
+    targetPort: 18080
+  selector:
+    project: "${docker.image.name}"
+    version: "${project.version}"
+    group: "${project.groupId}"
+  type: "NodePort"
+

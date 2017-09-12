@@ -1,0 +1,8 @@
+spring:
+    application:
+        name: shoppingcart-checkout-ms
+        
+#disable hystrix for now, so sleuth auto configuration will work
+feign:
+    hystrix:
+        enabled: false
