@@ -29,8 +29,8 @@ public class PopulateHrefs implements IPopulateHrefs {
 //    /**
 //     * Set all the href references in the checkout object
 //     */
-//    @Override
-//    public Checkout populateHrefs(Checkout checkout, HttpServletRequest httpRequest) {
+    @Override
+    public Checkout populateHrefs(Checkout checkout, HttpServletRequest httpRequest) {
 //
 //        // Set Checkout href
 //        Map<String, Object> hrefUriValues = new HashMap<>();
@@ -52,8 +52,8 @@ public class PopulateHrefs implements IPopulateHrefs {
 //        String productOrderHref = buildHref(productOrderURL, GET_PRODUCTORDER_RESOURCE, hrefUriValues, httpRequest);
 //        checkout.getProductOrder().setHref(productOrderHref);
 //
-//        return checkout;
-//    }
+        return checkout;
+    }
 //
 //    private String buildHref(String url, String resource, Map<String, ?> hrefUriValues, HttpServletRequest httpRequest) {
 //        String httpUrl = url + resource;
