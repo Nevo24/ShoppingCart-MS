@@ -32,6 +32,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="api-shoppingcart-shoppingcart" target="1.8" />
       <module name="external-client-kit" target="1.8" />
       <module name="shoppingcart-checkout-api" target="1.8" />
       <module name="shoppingcart-checkout-aspect-parent" target="1.8" />

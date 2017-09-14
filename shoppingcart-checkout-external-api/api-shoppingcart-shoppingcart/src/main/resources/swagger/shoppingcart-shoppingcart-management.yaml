@@ -1,0 +1,603 @@
+swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+
+info:
+  version: v10.2
+  title: Shopping Cart Management
+  description: |
+   This service manages shopping cart resource, it allows retrival of shopporting cart with its items, their prices, total price, related party, notes, channel, items ordered configuration. It allows to add, delete, modify items in cart. it also allows to empty cart.
+
+  license:
+    name: Amdocs Inc.
+    url: ""
+  contact:
+    name: Amdocs Inc.
+    url: http://www.amdocs.com
+    email: support@amdocs.com
+
+x-dox-DesignDocs:
+- description: |
+    Shopping cart module architecture 
+  url: http://confluence/display/OMM/Shopping+Cart+-+Module+Architecture
+  
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+
+# Dummy host
+host: amdocs.com:10101
+# port: 10251
+
+basePath: /shopping-cart-management
+
+schemes:
+- https
+
+
+#
+# Resources
+#
+paths:
+  /v1/shopping-carts:
+    post:
+      x-dox-Since: v10.2
+      tags:
+      - "ShoppingCart"
+      operationId: createShoppingCart
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      description: |
+        This service create shopping cart by adding one or more items in cart
+      parameters:
+      - $ref: "#/parameters/header-locale"
+      - $ref: "#/parameters/query-salesChannel"
+      - in: body
+        name: ShoppingCart
+        description: Create a shopping cart with 1 or more shopping cart items.
+        required: true
+        schema:
+          $ref: "#/definitions/v1.ShoppingCart"
+
+      responses:
+        200:
+          description: |
+            *OK* - shopping cart got created successfully.
+          schema:
+            $ref: "#/definitions/v1.ShoppingCart"
+        400:
+          $ref: "#/responses/400-BadRequest"
+        401:
+          $ref: "#/responses/401-Unauthorized"  
+        404:
+          $ref: "#/responses/404-NotFound"
+        409:
+          $ref: "#/responses/409-Conflict"  
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        default:
+          $ref: "#/responses/500-InternalServerError"
+    get:
+      x-dox-Since: v10.2
+      tags:
+      - "ShoppingCart"
+      operationId: getShoppingCarts
+      description: |
+        This service retrieves shopping carts for given filer criteria.
+      parameters:
+      - $ref: "#/parameters/header-locale"
+      - $ref: "#/parameters/query-salesChannel"
+      - $ref: "#/parameters/query-filter"
+      responses:
+        200:
+          description: |
+            *OK* - shopping carts got retrieved successfully
+          schema:
+            type : array
+            items  :
+              $ref: "#/definitions/v1.ShoppingCart"
+        400:
+          $ref: "#/responses/400-BadRequest"
+        401:
+          $ref: "#/responses/401-Unauthorized"  
+        404:
+          $ref: "#/responses/404-NotFound"
+        409:
+          $ref: "#/responses/409-Conflict"  
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        default:
+          $ref: "#/responses/500-InternalServerError"        
+    
+  /v1/shopping-carts/{shoppingCartId}:
+    get:
+      x-dox-Since: v10.2
+      tags:
+      - "ShoppingCart"
+      operationId: getShoppingCart
+      description: |
+        This service retrieve shopping cart by it's id.
+      parameters:
+      - $ref: "#/parameters/header-locale"
+      - $ref: "#/parameters/query-salesChannel"
+      - $ref: "#/parameters/path-shopping-cart-id"
+      responses:
+        200:
+          description: |
+            *OK* - shopping cart retrieved successfully
+          schema:
+            $ref: "#/definitions/v1.ShoppingCart"
+        400:
+          $ref: "#/responses/400-BadRequest"
+        401:
+          $ref: "#/responses/401-Unauthorized"  
+        404:
+          $ref: "#/responses/404-NotFound"
+        409:
+          $ref: "#/responses/409-Conflict"  
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        default:
+          $ref: "#/responses/500-InternalServerError"
+    patch:
+      x-dox-Since: v10.2
+      tags:
+      - "ShoppingCart"
+      operationId: patchShoppingCart
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      description: |
+        This service allows partial update shopping cart resource it includes adding, removing, updating items in cart. It can also use to update state, valid for for cart and state, quantity of cart item.
+      parameters:
+      - $ref: "#/parameters/header-locale"
+      - $ref: "#/parameters/query-salesChannel"
+      - $ref: "#/parameters/path-shopping-cart-id"
+      - in: body
+        name: ShoppingCartPatch
+        description: patch request to update shopping cart items and it's related entities
+        required: true
+        schema:
+          type :  array
+          items  :
+             $ref: "#/definitions/v1.PatchElement"
+      responses:
+        200:
+          description: |
+            *OK* - shopping cart got created successfully.
+          schema:
+            $ref: "#/definitions/v1.ShoppingCart"
+        400:
+          $ref: "#/responses/400-BadRequest"
+        401:
+          $ref: "#/responses/401-Unauthorized"  
+        404:
+          $ref: "#/responses/404-NotFound"
+        409:
+          $ref: "#/responses/409-Conflict"  
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        default:
+          $ref: "#/responses/500-InternalServerError"
+
+
+
+#
+# Parameters
+#
+parameters:
+
+#
+# Standard Amdocs REST query parameters
+#
+
+  header-locale:
+    x-dox-Since: v10.2
+    name: Accept-Language
+    in: header
+    description: |
+      client's locale
+    type: string
+
+  query-salesChannel:
+    x-dox-Since: v10.2
+    name: salesChannel
+    in: query
+    description: |
+      Sales Channel
+    required: true
+    type: string
+
+  path-shopping-cart-id:
+    x-dox-Since: v10.2
+    name: shoppingCartId
+    in: path
+    description: |
+      shopping cart id
+    required: true
+    type: string
+
+  query-filter:
+    x-dox-Since: v10.2
+    name: filters
+    in: query
+    description: |
+      parameter to specify the filter query parameter. currently part of incubation, supported filter will be relatedParty.id to fetch shopping carts related to customer
+    required: false
+    type: array
+    items:
+      type: string
+      collectionFormat: csv
+      minLength: 1
+
+
+#
+# Additional business Amdocs REST query parameters
+#
+
+
+#
+# Definitions
+#
+definitions:
+  v1.ShoppingCart:
+    x-dox-Since: v10.2
+    description: |
+      Shopping cart resource
+    type: object
+    properties:
+      id:
+        description: |
+          id of shopping cart
+        type: string
+      href:
+        type: string
+        format: url
+        description: |
+          The href to the item
+      validFor:
+        $ref: "#/definitions/v1.TimePeriod"
+      relatedParty:
+        type :  array
+        items :
+          $ref: "#/definitions/v1.RelatedPartyRef"
+      shoppingCartItem:
+        type :  array
+        items  :
+          $ref: "#/definitions/v1.ShoppingCartItem"
+      cartTotalPrice:
+        type :  array
+        items :
+          $ref: "#/definitions/v1.CartPrice"
+
+  v1.ShoppingCartItem:
+    x-dox-Since: v10.2
+    description: |
+      Shopping cart item 
+    type: object
+    properties:
+      id:
+        description: |
+            id of shopping cart
+        type: string
+      action:
+        description: |
+            action done on item "ADD", "REMOVE", "MODIFY" - <TBD>
+        type: string
+      state:
+        description: |
+            state of shopping cart like <TBD value values>
+        type: string
+      quantity:
+        description: |
+            Quantity of item
+        type: integer
+      isRoot:
+        description: |
+            Indication is cart item is root level. manily useful for bundle product offering use case, when purchasing a catalog item resulting in mutiple shopping cart items.
+        type: boolean
+      productOffering:
+        $ref: "#/definitions/v1.ProductOfferingRef"
+      cartItemPrice:
+        type :  array
+        items  :
+             $ref: "#/definitions/v1.CartPrice"
+      cartItemRelationship:
+        type :  array
+        items  :
+            $ref: "#/definitions/v1.cartItemRelationship"
+
+
+  v1.cartItemRelationship:
+    x-dox-Since: v10.2
+    description: |
+      Represent relationship amoung cart items.
+    type: object
+    properties:
+      id:
+        description: |
+            id of shopping cart item
+        type: string
+      type:
+        description: |
+            relationship type with the shopping cart item to which it is realted to. <valid values to TBD> e.g. IsParent, IsChild
+        type: string
+
+  v1.RelatedPartyRef:
+    x-dox-Since: v10.2
+    description: |
+      it contains reference of 'CustomerRef'.
+    type: object
+    properties:
+      id:
+        description: |
+          id of related party
+        type: string
+      href:
+        type: string
+        format: url
+        description: |
+          The href to the item
+      name:
+        description: |
+          name of related party'
+        type: string
+      role:
+        description: |
+          Role of related party
+        type: string
+
+  v1.ProductOfferingRef:
+    x-dox-Since: v10.2
+    description: |
+      it contains reference of 'ProductOffering'
+    type: object
+    properties:
+      id:
+        description: |
+          id of'ProductOffering'
+        type: string
+      href:
+        type: string
+        format: url
+        description: |
+          The href to the item
+      name:
+        description: |
+          name of 'ProductOffering'
+        type: string
+
+  v1.TimePeriod:
+    x-dox-Since: 10.2
+    description: |
+      Time period
+    type: object
+    properties:
+      startDateTime:
+         description: |
+            time period start date and time
+         type: string
+         format : date-time
+      endDateTime:
+         description: |
+            time period end date and time
+         type: string
+         format : date-time
+
+
+  v1.CartPrice:
+    x-dox-Since: v10.2
+    description: |
+      It contains the Price of cart/cart item
+    type: object
+    properties:
+        name:
+          description: |
+            The Name of this Price
+          type: string
+        description:
+          description: |
+            The Description of Price
+          type: string
+        unitOfMessure:
+          description: |
+            unit of messure of Price
+          type: string
+        recurringChargePeriod:
+          $ref: "#/definitions/v1.RecurringChargePeriodType"
+        price:
+          $ref: "#/definitions/v1.Price"
+        priceType:
+          $ref: "#/definitions/v1.PriceType"
+
+  v1.RecurringChargePeriodType:
+    x-dox-Since: 10.2
+    description: |
+      It contains Recurring Charge Period Type. Values can be 
+      'WEEK, 'MONTH', 'DAY'.
+    type: object
+    properties:
+      name:
+        description: |
+          The name of the RecurringChargePeriodType.
+        type: string 
+#    enum:
+#    - WEEK
+#    - MONTH
+#    - DAY
+
+  v1.PriceType:
+    x-dox-Since: 10.2
+    description: |
+      It contains Recurring Charge Period Type. Values can be
+      'OC', 'RC'.
+    type: object
+    properties:
+      name:
+        description: |
+          The name of the PriceType.
+        type: string 
+#    enum:
+#    - OC
+#    - RC
+
+
+  v1.Price:
+    x-dox-Since: v10.2
+    description: |
+      It contains the Price
+    type: object
+    properties:
+        taxIncludedAmount:
+          description: |
+            Amount after tax
+          type: number
+        currencyCode:
+          description: |
+            currency of amount
+          type: string
+
+  v1.ErrorResponse:
+    x-dox-Since: v10.2
+    type: object
+    description: |
+      Response containing descriptive error text, error code
+      type: object
+    properties:
+      link:
+        type: string
+        format: url
+        description: |
+          The href to the item
+      rel:
+        type: string
+        description: |
+          The relation type for the item
+        default: help
+      code:
+        description: |
+          The code associated with the error
+        readOnly: false
+        type: integer
+      message:
+        description: |
+          The message associated with the error
+        readOnly: false
+        type: string
+
+
+
+  v1.Link:
+    x-dox-Since: v10.2
+    type: object
+    discriminator: link
+    description: |
+      It manifests all permissble href types representation for a link.
+    required:
+    - href
+    - rel
+    properties:
+      href:
+        type: string
+        format: url
+        description: |
+          The href to the item
+        readOnly: true
+      rel:
+        type: string
+        description: |
+          The relation type for the item. The values can be 'self',
+          'prev', 'next', 'alternate', 'first', 'last', 'current',
+          'edit', 'enclosure', 'related', 'replies', 'up' 'help'. 
+        readOnly: true
+#        enum:
+#        - self
+#        - prev
+#        - next
+#        - alternate
+#        - first
+#        - last
+#        - current
+#        - edit
+#        - enclosure
+#        - related
+#        - replies
+#        - up
+#        - help
+  
+  v1.PatchElement:
+    x-dox-Since: v10.2
+    description: |
+      The 'PatchElement' object
+    properties:
+      op:
+        description: |
+          The operation of this 'PatchElement', 'add', 'remove', 
+          'replace', 'move', 'copy', 'test'. 
+        type: string
+#        enum: 
+#        - add
+#        - remove
+#        - replace
+#        - move
+#        - copy
+#        - test
+      path:
+        type: string
+        description: |
+          The path of this 'PatchElement' (e.g. '/status' or '/notes' or '/name' or '/activationStatus' or 
+          '/description')
+      value:
+        description: |
+          The value of this 'PatchElement'
+        type: object
+
+
+#
+# Responses
+#
+responses:
+  400-BadRequest:
+    x-dox-Since: v10.2
+    description: |
+      *Bad Request* - Indicates that client has sent malformed request.
+      Possibly missing mandatory query parameters, invalid value
+      in query parameters, validation exception etc.
+    schema:
+      $ref: "#/definitions/v1.ErrorResponse"
+      
+  401-Unauthorized:
+    x-dox-Since: v10.2
+    description: |
+      *Unauthorized* - Indicates that client in not authorized.
+    schema:
+      $ref: "#/definitions/v1.ErrorResponse"
+  
+  404-NotFound:
+    x-dox-Since: v10.2
+    description: |
+      *Not Found* - Indicates server has not found the requested URI.
+      Possibly missing path parameters, invalid web resource etc.
+    schema:
+      $ref: "#/definitions/v1.ErrorResponse"
+      
+  409-Conflict:
+    x-dox-Since: v10.2
+    description: |
+      *Conflict* - The request could not be completed due to a conflict 
+      with the current state of the resource.
+    schema:
+      $ref: "#/definitions/v1.ErrorResponse"    
+  
+  500-InternalServerError:
+    x-dox-Since: v10.2
+    description: |
+      *Internal Server Error* - server failed in handling the
+      client request.
+    schema:
+      $ref: "#/definitions/v1.ErrorResponse"

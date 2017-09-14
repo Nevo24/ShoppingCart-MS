@@ -8,7 +8,7 @@ couchbase:
       name: 'cbProvider'
 #Couchbase environment config - start
       env:
-        clusterUrl: 'couchbase-service'
+        clusterUrl: 'ilde4595.eaas.amdocs.com'
         bucketName: 'com.amdocs.digital.ms.shoppingcart.checkout'
         ioPoolSize: 12
         computationPoolSize: 12
@@ -37,13 +37,11 @@ server:
   port: 8080
     
 #External services - Add URIs of required services here - for dev purpose - May get replaced with service discovery
-#services:  
-#  checkout:
-#    url: 'http://shoppingcart-checkout-service:8080/checkout-management'
-#  shoppingCart:
-#    url: 'http://shoppingcart-shoppingcart-service:8080/shoppingcart-management'
-#  productOrder:
-#    url: 'http://productorder-productorder-service:8080/productorder-management'
+services:
+  checkout:
+    url: 'http://localhost:8080/checkout-management'
+  shoppingCart:
+    url: 'http localhost:8081/shoppingcart-management'
   
 #Logging
 logging:

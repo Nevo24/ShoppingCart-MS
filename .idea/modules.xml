@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-external-api/api-shoppingcart-shoppingcart/api-shoppingcart-shoppingcart.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-external-api/api-shoppingcart-shoppingcart/api-shoppingcart-shoppingcart.iml" group="shoppingcart-checkout-external-api and modules" />
       <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-external-api/external-client-kit/external-client-kit.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-external-api/external-client-kit/external-client-kit.iml" group="shoppingcart-checkout-external-api and modules" />
       <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-api/shoppingcart-checkout-api.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-api/shoppingcart-checkout-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/shoppingcart-checkout-aspect-parent/shoppingcart-checkout-aspect-parent.iml" filepath="$PROJECT_DIR$/shoppingcart-checkout-aspect-parent/shoppingcart-checkout-aspect-parent.iml" />

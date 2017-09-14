@@ -1,6 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.amdocs.digital.ms.shoppingcart.checkout.resources.config.ResourceErrorHandlerConfig,\
 com.amdocs.digital.ms.shoppingcart.checkout.resources.config.ResourceLayerConfig,\
-com.amdocs.digital.ms.shoppingcart.checkout.resources.config.ResourceMappersConfig,\
-com.amdocs.digital.ms.shoppingcart.checkout.resources.errorhandling.implementation.ExceptionToErrorResponseMapper
+com.amdocs.digital.ms.shoppingcart.checkout.resources.config.ResourceMappersConfig

@@ -1,4 +1,9 @@
 package com.amdocs.digital.ms.shoppingcart.checkout.business.services.models.interfaces;
 
-public interface IShoppingCart {
+import com.amdocs.msbase.repository.dto.IBaseEntity;
+public interface IShoppingCart extends IBaseEntity
+{
+    public String getId();
+    public void setId(String id);
+    // TODO Add other attributes needed for Product Order
 }

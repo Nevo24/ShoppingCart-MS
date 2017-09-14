@@ -1,4 +1,4 @@
-package com.amdocs.digital.ms.shoppingcart.checkout.resources;
+package com.amdocs.digital.ms.shoppingcart.checkout.resources.mappers.interfaces;
 
 import com.amdocs.digital.ms.shoppingcart.checkout.resources.models.Checkout;
 
